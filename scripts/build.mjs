@@ -9,6 +9,7 @@ await mkdir('public/targets', { recursive: true });
 const assets = {
   'three.js': 'three@0.160.0/build/three.module.js',
   'OrbitControls.js': 'three@0.160.0/examples/jsm/controls/OrbitControls.js',
+  'CSS3DRenderer.js': 'three@0.160.0/examples/jsm/renderers/CSS3DRenderer.js',
   'mindar.js': 'mind-ar@1.2.5/dist/mindar-image-three.prod.js',
   'compiler.js': 'mind-ar@1.2.5/dist/mindar-image.prod.js'
 };

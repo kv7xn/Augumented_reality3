@@ -17,7 +17,7 @@ async function boot() {
   $('preview').append(renderer.domElement);
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; controls.enablePan = false; controls.minDistance = 2.5; controls.maxDistance = 12;
-  let selected = null, topicId, ar = null, busy = false;
+  let selected = null, ar = null, busy = false;
   let animate = !matchMedia('(prefers-reduced-motion: reduce)').matches;
   let cutaway = false, magnetic = false;
   let zoom = 1, rotation = 0;
@@ -46,7 +46,6 @@ async function boot() {
   function selectTopic(id) {
     const topic = bodies[selected].topics.find(item => item.id === id);
     if (!topic) return;
-    topicId = id;
     $('topic-tag').textContent = topic.tag;
     $('topic-title').textContent = topic.title;
     $('topic-description').textContent = topic.description;
