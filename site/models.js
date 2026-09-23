@@ -88,12 +88,12 @@ export function createBody(kind) {
   return {
     root, spin, surface, section, field, outer,
     setView(cutaway, magnetic) { surface.visible=!cutaway;section.visible=cutaway;field.visible=magnetic; },
-    select(topic) { layerMeshes.forEach((pair,index)=>pair.forEach(mesh=>{mesh.material.emissiveIntensity=index===topic.layer?.valueOf()?.valueOf() ? .65 : (index===0&&!earth?.valueOf() ? .9 : .15);})); },
+    select(topic) { layerMeshes.forEach((pair,index)=>pair.forEach(mesh=>{mesh.material.emissiveIntensity = index === topic.layer ? .65 : (index === 0 && !earth ? .9 : .15);})); },
     setRotation(degrees) { offset=THREE.MathUtils.degToRad(degrees); angle=0;spin.rotation.y=offset; },
     setScale(value) { root.scale.setScalar(value); },
     reset() { angle=0;time=0;offset=0;spin.rotation.set(0,0,0);root.scale.setScalar(1); },
     update(delta,animate) {
-      if(animate){ time+=delta; if(!section.visible) angle+=delta*(earth?.065:.045); }
+      if(animate){ time+=delta; if(!section.visible) angle+=delta*(earth ? .065 : .045); }
       spin.rotation.y=offset+angle;
       for(const {mesh,points,offset:phase} of [...particles,...flowParticles]) { const progress=((time*.16+phase)%1)*(points.length-1),index=Math.floor(progress);mesh.position.copy(points[index]).lerp(points[Math.min(index+1,points.length-1)],progress-index); }
       if(!earth) halo.material.opacity=.11+(animate?Math.sin(time*1.2)*.02:0);
