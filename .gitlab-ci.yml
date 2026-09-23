@@ -16,7 +16,8 @@ build-and-test:
     - npm run build
     - npm test
   artifacts:
-    paths: [public/]
+    when: always
+    paths: [public/, test-results/]
     expire_in: 7 days
 
 publish-site:
