@@ -133,7 +133,7 @@ async function boot() {
   async function startAR() {
     if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) throw new Error('Camera access requires HTTPS and a supported browser. Open the deployed site in Android Chrome.');
     status('Loading image tracking. Allow camera access when Chrome asks.');
-    const { MindARThree } = await import('./vendor/mindar.js');
+    const { MindARThree } = await import('./vendor/mindar-image-three.prod.js');
     setCameraUI(true);
     const session = new MindARThree({ container: $('ar-host'), imageTargetSrc: new URL('./targets/planets.mind', location.href).href, maxTrack: 1, uiLoading: 'no', uiScanning: 'no', uiError: 'no' });
     ar = session;
