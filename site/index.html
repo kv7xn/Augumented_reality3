@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080c19">
+  <meta name="description" content="Explore Earth and the Sun through interactive 3D and picture-tracked augmented reality.">
+  <title>Orbit Lab — Physics in your space</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./responsive.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.js","three/addons/controls/OrbitControls.js":"./vendor/OrbitControls.js","three/addons/renderers/CSS3DRenderer.js":"./vendor/CSS3DRenderer.js","three/examples/jsm/renderers/CSS3DRenderer.js":"./vendor/CSS3DRenderer.js"}}</script>
+</head>
+<body>
+  <a class="skip" href="#explorer">Skip to explorer</a>
+  <header class="topbar"><a class="brand" href="./" aria-label="Orbit Lab home"><span class="brand-icon">◎</span> ORBIT<span>LAB</span></a><span class="badge">INTERACTIVE PHYSICS</span><a href="./targets.html" class="quiet-link">Get scan pictures ↗</a></header>
+  <main>
+    <section class="intro"><p class="eyebrow">TWO WORLDS. ENDLESS DISCOVERY.</p><h1>Physics, <em>in your space.</em></h1><p>Peel back a planet. Step inside a star. Bring the invisible into view.</p></section>
+    <section class="workspace" id="explorer" aria-label="Interactive physics explorer">
+      <div class="visual-column">
+        <div class="object-tabs" role="group" aria-label="Choose a model"><button id="choose-earth" class="object-tab" aria-pressed="true"><span class="planet-dot earth-dot"></span>01 / Earth</button><button id="choose-sun" class="object-tab" aria-pressed="false"><span class="planet-dot sun-dot"></span>02 / Sun</button></div>
+        <div class="viewport" id="viewport">
+          <div id="preview" class="render-host" role="img" aria-label="Interactive 3D model; use controls below to rotate and explore"></div>
+          <div id="ar-host" class="render-host" hidden></div>
+          <div class="view-top"><span id="mode" class="badge">3D EXPLORER</span><span class="live-indicator" id="tracking">PREVIEW</span></div>
+          <div class="view-bottom"><span id="gesture-hint">Drag to orbit · pinch or scroll to zoom</span><button id="reset" class="small-button">Reset view</button></div>
+          <div id="loading" class="loading">Preparing your observatory…</div>
+        </div>
+        <p id="status" class="status" role="status" aria-live="polite">Loading interactive models…</p>
+        <div class="launch-row"><button id="camera" class="primary" disabled>Start picture AR <span>↗</span></button><a class="secondary" href="./targets.html">Download scan pictures</a></div>
+        <p class="camera-note">Android Chrome · allow camera access · print a scan picture or show it on another screen. Only the supplied pictures are recognized.</p>
+        <div class="control-card">
+          <div class="toggle-row"><button id="cutaway" aria-pressed="false">◐ Cross-section</button><button id="field" aria-pressed="false">⌁ Magnetic field</button><button id="motion" aria-pressed="true">Pause animation</button></div>
+          <div class="sliders"><label>Rotate <input id="rotation" type="range" min="-180" max="180" value="0"><output id="rotation-value">0°</output></label><label>Scale <input id="scale" type="range" min="60" max="160" value="100"><output id="scale-value">100%</output></label></div>
+        </div>
+      </div>
+      <aside class="inspector" aria-label="Model descriptions">
+        <p class="eyebrow" id="object-category">TERRESTRIAL PLANET</p><h2 id="object-title">Earth</h2><p id="object-summary"></p><div id="stats" class="stats"></div>
+        <div class="section-heading"><h3>Explore the science</h3><span>TAP A LABEL</span></div>
+        <div id="topics" class="topic-grid" role="group" aria-label="Model labels"></div>
+        <article class="explanation" aria-live="polite"><p class="eyebrow" id="topic-tag"></p><h3 id="topic-title"></h3><p id="topic-description"></p><p id="topic-equation" class="equation"></p></article>
+        <p class="model-note" id="model-note"></p><a id="science-source" class="quiet-link" target="_blank" rel="noopener noreferrer">Read the science at NASA ↗</a>
+      </aside>
+    </section>
+    <section class="steps" aria-label="How to use augmented reality"><div><b>01</b><h3>Choose your world</h3><p>Explore in 3D first. Select a label to reveal the physics.</p></div><div><b>02</b><h3>Set the scene</h3><p>Print a supplied picture flat, or display it on a second screen.</p></div><div><b>03</b><h3>Bring it to life</h3><p>Start AR, allow the camera, and keep the full picture in view.</p></div></section>
+  </main>
+  <footer>ORBIT LAB <span>Built for curiosity. Models and animations are educational schematics, not to scale.</span></footer>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

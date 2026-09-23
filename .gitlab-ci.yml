@@ -1,0 +1,33 @@
+image: mcr.microsoft.com/playwright:v1.51.1-noble
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
+      when: never
+    - if: '$CI_COMMIT_BRANCH'
+
+stages: [test, deploy]
+
+build-and-test:
+  stage: test
+  script:
+    - npm install --ignore-scripts --no-audit --no-fund
+    - npm run build
+    - npm test
+  artifacts:
+    when: always
+    paths: [public/, test-results/]
+    expire_in: 7 days
+
+publish-site:
+  stage: deploy
+  needs:
+    - job: build-and-test
+      artifacts: true
+  script:
+    - test -s public/index.html
+    - test -s public/targets/planets.mind
+  pages: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
