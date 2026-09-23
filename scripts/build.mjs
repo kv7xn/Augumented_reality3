@@ -19,18 +19,20 @@ await Promise.all(Object.entries(assets).map(async ([name, source]) => {
   await writeFile(`public/vendor/${name}`, await response.text());
 }));
 await cp('scripts/target-art.js', 'public/target-art.js');
-await writeFile('public/__compile.html', '<!doctype html><html><head><meta charset="utf-8"><title>Compile targets</title></head><body><script src="./vendor/compiler.js"></script></body></html>');
+await writeFile('public/__compile.html', '<!doctype html><html><head><meta charset="utf-8"><title>Compile targets</title></head><body></body></html>');
 const server = await startServer();
 let browser;
 try {
   browser = await chromium.launch({ args: ['--enable-webgl', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
   const page = await browser.newPage();
   page.on('console', message => { if (message.type() === 'error') console.error(message.text()); });
+  page.on('pageerror', error => console.error(error.message));
   await page.goto('http://127.0.0.1:4173/__compile.html');
   const result = await page.evaluate(async () => {
     const { drawTarget } = await import('./target-art.js');
-    const Compiler = window.MINDAR?.IMAGE?.Compiler;
-    if (!Compiler) throw new Error('MindAR compiler API is unavailable');
+    const compilerModule = await import('./vendor/compiler.js');
+    const Compiler = compilerModule.Compiler || window.MINDAR?.IMAGE?.Compiler;
+    if (!Compiler) throw new Error(`MindAR compiler API is unavailable; exports: ${Object.keys(compilerModule).join(', ')}`);
     const images = await Promise.all(['earth', 'sun'].map(async kind => {
       const image = new Image();
       image.src = drawTarget(kind).toDataURL('image/png');
